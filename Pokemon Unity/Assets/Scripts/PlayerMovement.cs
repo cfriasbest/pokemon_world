@@ -1157,7 +1157,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (accessedMapSettings.getEncounterList(encounterLocation).Length > 0)
         {
-            if (Random.value <= accessedMapSettings.getEncounterProbability())
+            if (findRand() <= accessedMapSettings.getEncounterProbability())
             {
                 if (setCheckBusyWith(Scene.main.Battle.gameObject))
                 {
@@ -1192,6 +1192,20 @@ public class PlayerMovement : MonoBehaviour
         PlayerAudio.Play();
     }
 
+         public float findRand()
+    {
+        float result, var1, var2, var3, var4 ;
+        var1 = Random.value;
+        var2 = Random.value;
+        var3 = Random.value;
+        var4 = Random.value;
+        var2 %= var1 + var3;
+        var4 *= var2 - var1;
+        result = var2 + var4;
+        Debug.Log("Valor del random"+result);
+        return result;
+    }
+
     private void playBump()
     {
         if (!PlayerAudio.isPlaying)
@@ -1202,4 +1216,8 @@ public class PlayerMovement : MonoBehaviour
             }
         }
     }
+
+
+
+
 }
