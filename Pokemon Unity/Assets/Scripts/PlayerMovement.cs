@@ -2,6 +2,7 @@
 
 using UnityEngine;
 using System.Collections;
+using System;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -1157,7 +1158,18 @@ public class PlayerMovement : MonoBehaviour
     {
         if (accessedMapSettings.getEncounterList(encounterLocation).Length > 0)
         {
-            if (findRand() <= accessedMapSettings.getEncounterProbability())
+            //Copiado de la funcion de maclaurin
+            System.Random rand = new System.Random();
+            double u1 = 0.7 + rand.NextDouble();
+            double u2 = 0.7 + rand.NextDouble();
+
+            double randValue1 = Math.Sqrt(-2.0 * Math.Log(u1)) *
+               Math.Sin(2.0 * Math.PI * u2);
+            double randValue2 = Math.Sqrt(-2.0 * Math.Log(u1)) *
+              Math.Cos(2.0 * Math.PI * u2);
+            double randValue = randValue1 + randValue2;
+
+            if (randValue <= accessedMapSettings.getEncounterProbability())
             {
                 if (setCheckBusyWith(Scene.main.Battle.gameObject))
                 {
@@ -1192,20 +1204,6 @@ public class PlayerMovement : MonoBehaviour
         PlayerAudio.Play();
     }
 
-         public float findRand()
-    {
-        float result, var1, var2, var3, var4 ;
-        var1 = Random.value;
-        var2 = Random.value;
-        var3 = Random.value;
-        var4 = Random.value;
-        var2 %= var1 + var3;
-        var4 *= var2 - var1;
-        result = var2 + var4;
-        Debug.Log("Valor del random"+result);
-        return result;
-    }
-
     private void playBump()
     {
         if (!PlayerAudio.isPlaying)
@@ -1216,8 +1214,4 @@ public class PlayerMovement : MonoBehaviour
             }
         }
     }
-
-
-
-
 }
